@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="authentication/index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alata&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alata&display=swap"
+      rel="stylesheet"
+    />
+    <title>Sell Car</title>
+
+    {% load static %}
+
+    <style>
+      body {
+        font-family: 'Alata', sans-serif;
+    }
+.nav {
+padding: 15px;
+margin-bottom: 30px;
+background-color: white;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+transition: 0.3s;
+}
+
+.navbar {
+/* position: absolute;*/
+left: 50%;
+/* transform: translatex(-50%); */
+}
+
+ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+overflow: hidden;
+/* background-color: white; */
+}
+
+li {
+float: left;
+}
+
+.inactiveLink {
+pointer-events: none;
+cursor: default;
+}
+
+.right {
+float: right;
+margin-right: 20px;
+}
+
+li a {
+display: block;
+color: white;
+text-align: center;
+padding: 8px 16px;
+text-decoration: none;
+color: black;
+display: inline-flex;
+}
+
+li a:hover {
+/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.685);
+transition: 0.3s; */
+}
+
+
+.container{
+    background-color: #f8f8f8;
+    width: 70%;
+    min-width: 420px;
+    padding: 35px 50px;
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 20px 30px 25px rgba(0,0,0,0.15);
+    left: 15%
+}
+h1{
+    font-size: 30px;
+    text-align: center;
+    color: #1c093c;
+}
+p{
+    position: relative;
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    color: #606060;
+    font-size: 14px;
+    font-weight: 400;
+}
+form{
+    width: 100%;
+    position: relative;
+    margin: 30px auto 0 auto;
+}
+.row{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+    grid-gap: 20px 30px;
+    margin-bottom: 20px;
+    margin-left: 10%;
+}
+label{
+    color: #1c093c;
+    font-size: 14px;
+}
+textarea{
+    width: 100%;
+    font-weight: 400;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1.2px solid #c4cae0;
+    margin-top: 5px;
+
+}
+
+input{
+    width: 50%;
+    font-weight: 400;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1.2px solid #c4cae0;
+    margin-top: 5px;
+}
+textarea{
+    resize: none;
+}
+textarea:focus,
+input:focus{
+    outline: none;
+    border-color: #6f6df4;
+}
+button{
+    border: none;
+    padding: 10px 20px;
+    background: linear-gradient(
+        130deg,
+        #6f6df4,
+        #4c46f5
+    );
+    color: #ffffff;
+    border-radius: 3px;
+    margin-left: 10%;
+}
+
+select{
+    margin-top: 10px;
+}
+    </style>
+  </head>
+  <body>
+    {% for message in messages %}
+    <div
+      class="alert alert-{{ message.tags }} alert-dismissible fade show"
+      role="alert"
+    ></div>
+    <strong>Message:</strong> {{ message }}
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+    ></button>
+    <span aria-hidden="true">&times;</span>
+
+    {% endfor %}
+
+    <div class="nav">
+      <ul class="navbar">
+        <li>
+          <a href="/"><b>Vehicle Retail</b></a>
+        </li>
+        {% if user.is_authenticated %}
+        <div class="right">
+          <li>
+            <a href="#">{{ fname }}</a>
+          </li>
+          <li>
+            <a href="/signout">SignOut</a>
+          </li>
+        </div>
+        {% else %}
+        <div class="right">
+          <li>
+            <a href="/signup">SignUp</a>
+          </li>
+          <li>
+            <a href="/signin">SignIn</a>
+          </li>
+        </div>
+        {% endif %}
+      </ul>
+    </div>
+
+    <!--
+    {% if user.is_authenticated %}
+    <h3>Hello {{ fname }}</h3>
+    <h4>You're successfully logged in</h4>
+    <button type="submit"><a href="/signout">Signout</a></button>
+
+    {% else %}
+    <button type="submit"><a href="/signup">Signup</a></button>
+    <button type="submit"><a href="/signin">Signin</a></button>
+    {% endif %}
+-->
+
+
+<div class="container">
+  <h1>Sell Your Car</h1>
+  <p>Sell your car instantly using our website!</p>
+  <form action="/sellCar" method="post" enctype="multipart/form-data" autocomplete="off">
+      {% csrf_token %}
+      <div class="row">
+          <div class="column">
+              <label for="name">Brand</label> <br>
+              
+              <select name="brand" required>
+                <option value="">Select Brand</option>
+                <option value="Audi">Audi</option>
+                <option value="BMW">BMW</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <option value="Ford">Ford</option>
+                <option value="Honda">Honda</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="Jeep">Jeep</option>
+                <option value="Land Rover">Land Rover</option>
+                <option value="Mahindra">Mahindra</option>
+                <option value="Maruti">Maruti</option>
+                <option value="Mercedes-Benz">Mercedes-Benz</option>
+                <option value="MG">MG</option>
+                <option value="Nissan">Nissan</option> 
+                <option value="Renault">Renault</option>       
+                <option value="Tata">Tata</option>
+                <option value="Toyota">Toyota</option>        
+                <option value="Volkswagen">Volkswagen</option> 
+
+              </select>
+          </div>
+          <div class="column">
+              <label>Model</label> <br>
+              <input type="text" placeholder="Enter Vehicle's model" name="model" required>
+          </div>
+      </div>
+      <div class="row">
+          <div class="column">
+              <label>Selling Price</label> <br>
+              <input type="text" placeholder="Selling Price" name="price" required>
+          </div>
+          <div class="column">
+              <label>Type of Car</label> <br>
+              <select name="type" required>
+                <option value="">Select Type</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Sedan">Sedan</option>
+                <option value="SUV">SUV</option>
+                <option value="MUV">MUV</option>
+                <option value="Coupe">Coupe</option>
+                <option value="Convertible">Convertible</option>
+              </select>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="column">
+              <label>Registration Year</label> <br>
+              <select name="registrationYear" required>
+                <option value="">Select Year</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2021">2016</option>
+                <option value="2020">2015</option>
+                <option value="2019">2014</option>
+                <option value="2018">2013</option>
+                <option value="2017">2012</option>
+              </select>   
+          </div>
+
+          <div class="column">
+              <label>Fuel Type</label> <br>
+              <select name="fuelType" required>
+                <option value="">Select Fuel type</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Petrol">Petrol</option>
+                <option value="CNG">CNG</option>
+              </select>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="column">
+              <label>Transmission</label> <br>
+              <select name="transmission" required>
+                <option value="">Select Transmission</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Manual">Manual</option>
+              </select>
+          </div>
+          
+          <div class="column">
+              <label>Engine Capacity</label> <br>
+              <select name="engineCapacity" required>
+                <option value="">Select Engine Capacity</option>
+                <option value="1L-1.5L">1L-1.5L</option>
+                <option value="2L-2.5L">2L-2.5L</option>
+              </select>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="column">
+              <label>Ownership</label> <br>
+              <select name="ownership" required>
+                <option value="">Select Ownership</option>
+                <option value="1st">1st</option>
+                <option value="2nd">2nd</option>
+                <option value="3rd">3rd</option>
+                <option value="4th">4th</option>
+              </select>
+          </div>
+          
+          <div class="column">
+              <label>Kilometers Driven</label> <br>
+              <input type="text" placeholder="How many kilometers the car is driven" name="kilometersDriven" required>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="column">
+              <label>Upload Photos</label> <br>
+              <input type="file" name="carImages" multiple placeholder="Upload Images" required>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="column">
+            <label>Upload Registration Certificate(RC)</label> <br>
+            <input type="file" name="rc"  placeholder="Upload RC" required>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+          <label>Upload PUC</label> <br>
+          <input type="file" name="puc"  placeholder="Upload Images" required>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+        <label>Upload Insurance</label> <br>
+        <input type="file" name="insurance"  placeholder="Upload PUC" required>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+        <label>Upload Invoice of the car</label> <br>
+        <input type="file" name="invoice"  placeholder="Upload Invoice" required>
+    </div>
+  </div>
+
+      <div class="row">
+          <div class="column">
+              <label>Description</label>
+              <textarea name="description" placeholder="Enter Description" rows="3" required></textarea>
+          </div>
+          <div class="column"></div>
+      </div>
+      <button type="submit">Sell</button>
+  </form>
+</div>
+
+</body>
+</html>

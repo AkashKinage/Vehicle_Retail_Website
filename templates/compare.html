@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="authentication/index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alata&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <title>Compare</title>
+
+    {% load static %}
+
+    <style>
+        body {
+          font-family: 'Alata', sans-serif;
+      }
+
+      .nav {
+          padding: 15px;
+          margin-bottom: 30px;
+          background-color: white;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          transition: 0.3s;
+      }
+
+      .navbar {
+          /* position: absolute;*/
+          left: 50%;
+          /* transform: translatex(-50%); */
+      }
+
+      ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          /* background-color: white; */
+      }
+
+      a{
+        text-decoration: none;
+        color: black;
+      }
+
+      li {
+          float: left;
+      }
+
+      .inactiveLink {
+          pointer-events: none;
+          cursor: default;
+      }
+
+      .right {
+          float: right;
+          margin-right: 20px;
+      }
+
+      li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 8px 16px;
+          text-decoration: none;
+          color: black;
+          display: inline-flex;
+      }
+
+      li a:hover {
+          /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.685);
+          transition: 0.3s; */
+      }
+
+      .cart {
+          size: 100px;
+      }
+      /*
+      .btn:hover {
+          background-color: #29a329;
+      }
+      */
+      .searchbar{
+        margin: 10px;
+      }
+
+      .searchbar input{
+        padding: 10px;
+        margin: 10px;
+        border: 2px solid black;
+        border-radius: 20px;
+        outline: none;
+        width: 400px;
+      }
+
+      .searchbar input::placeholder{
+        text-align: center;
+        font-family: font-family: 'Alata', sans-serif;
+      }
+
+      .btn1{
+         background-color: #33cc33;
+        border: none;
+        border-radius: 20px;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        outline: none;
+      }
+
+      .btn{
+         background-color: #303030;
+        border: none;
+        border-radius: 20px;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        outline: none;
+        width:  50%;
+      }
+      /*
+      .btn:hover{
+         background-color: #29a329;
+      }
+      */
+      .card {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          transition: 0.3s;
+          width: 30%;
+          border-radius: 5px;
+          /*float: left;*/
+          margin-left: 35px;
+          margin-bottom: 40px;
+          margin-top: 40px;
+      }
+
+      .card:hover {
+          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .card img {
+          border-radius: 5px 5px 0 0;
+          width: 100%;
+      }
+
+      .container {
+          padding: 2px 16px;
+      }
+
+      .addtocart {
+          background-color: #303030;
+          border: none;
+          padding-left: 20px;
+          padding-right: 20px;
+          border-radius: 30px;
+          outline: none;
+          text-decoration: none;
+          color: white;
+      }
+
+      .filter{
+        display: table;
+        margin: 0 auto;
+      }
+
+      .filter label,select,input{
+        margin-left:20px;
+      }
+
+	  table {
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 60%;
+		margin-top: 50px;
+	  }
+	  
+	  td, th {
+		border: 1px solid #dddddd;
+		text-align: left;
+		padding: 8px;
+	  }
+	  
+	  tr:nth-child(even) {
+		background-color: #dddddd;
+	  }
+
+    h2,h4{
+      margin-left: 90px;
+        margin-bottom: 30px;
+    }
+
+    img{
+      width: 80%;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <ul class="navbar">
+        <li>
+          <a href="/"><b>Vehicle Retail</b></a>
+        </li>
+        {% if user.is_authenticated %}
+        <div class="right">
+          <li>
+            <a href="#">{{ fname }}</a>
+          </li>
+          <li>
+            <a href="/signout">SignOut</a>
+          </li>
+        </div>
+        {% else %}
+        <div class="right">
+          <li>
+            <a href="/signup">SignUp</a>
+          </li>
+          <li>
+            <a href="/signin">SignIn</a>
+          </li>
+        </div>
+        {% endif %}
+      </ul>
+    </div>
+
+    <center>
+      {% for message in messages %}
+    <div
+      class="alert alert-{{ message.tags }} alert-dismissible fade show"
+      role="alert"
+    ></div>
+    <strong>Message:</strong> {{ message }}
+  
+  
+    {% endfor %}
+    </center>
+
+    <h2>Compare Vehicles</h2>
+    <h4>Enter the model name of 2 vehicles and get the insights about those vehicles!</h4>
+    <center>
+    <form method="get" action="/compare">
+      {% csrf_token %}
+      
+
+      <label>Vehicle 1:</label>
+      <input type="text" name="car1" placeholder="Enter model name of car" required autocomplete="off">
+      
+	  <label>Vehicle 2:</label>
+      <input type="text" name="car2" placeholder="Enter model name of car" required autocomplete="off">
+      
+      <input type="submit" value="submit">
+
+
+      </div>
+    </form>
+	{% for car1 in vehicle1 %}
+	{% for car2 in vehicle2 %}
+    
+		<table>
+      <tr>
+			  <th></th>
+			  <th><center><img src='/media/{{car1.carImages}}' alt="Avatar" /></center></th>
+			  <th><center><img src='/media/{{car2.carImages}}' alt="Avatar" /></center></th>
+			</tr>
+			<tr>
+			  <th>Specifications</th>
+			  <th>{{ car1.model_name }}</th>
+			  <th>{{ car2.model_name }}</th>
+			</tr>
+			<tr>
+			  <td>Brand</td>
+			  <th>{{ car1.brand }}</th>
+			  <th>{{ car2.brand }}</th>
+			</tr>
+			<tr>
+			  <td>Car Type</td>
+			  <th>{{ car1.carType }}</th>
+			  <th>{{ car2.carType }}</th>
+			</tr>
+			<tr>
+			  <td>Registration Year</td>
+			  <th>{{ car1.registrationYear }}</th>
+			  <th>{{ car2.registrationYear }}</th>
+			</tr>
+			<tr>
+			  <td>Fuel Type</td>
+			  <th>{{ car1.fuelType }}</th>
+			  <th>{{ car2.fuelType }}</th>
+			</tr>
+			<tr>
+			  <td>Transmission</td>
+			  <th>{{ car1.transmission }}</th>
+			  <th>{{ car2.transmission }}</th>
+			</tr>
+			<tr>
+			  <td>Engine Capacity</td>
+			  <th>{{ car1.engineCapacity }}</th>
+			  <th>{{ car2.engineCapacity }}</th>
+			</tr>
+			<tr>
+				<td>Ownership</td>
+				<th>{{ car1.ownership }}</th>
+			  <th>{{ car2.ownership }}</th>
+			</tr>
+			<tr>
+				<td>Kilometers Driven</td>
+				<th>{{ car1.kilometersDriven }}</th>
+			  <th>{{ car2.kilometersDriven }}</th>
+			</tr>
+			<tr>
+				<td>Price</td>
+				<th>{{ car1.price }}</th>
+			  <th>{{ car2.price }}</th>
+			</tr>
+		  </table>
+		</center>
+  </center>
+   {% endfor %}
+   {% endfor %} 
+  </body>
+</html>
